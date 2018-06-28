@@ -1,0 +1,4 @@
+build/
+dist/
+escli.egg-info/
+files.txt
