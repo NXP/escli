@@ -11,6 +11,8 @@ import logging
 import os
 import sys
 import errno
+import time
+import datetime
 from . import logger as eslog
 from .utils import Request, process_result
 
@@ -30,7 +32,7 @@ def create_token_file(filename):
 
 def get_token():
     if not is_login():
-        print("login first")
+        print("**** The token does not exist or has expired. Please login first! ***")
         raise Exception("login first")
 
     log.debug("reading token from file: %s", tokenfile)
@@ -74,9 +76,15 @@ def login(kargs, username='', password=''):
         create_token_file(tokenfile)
         with open(tokenfile, "w") as f:
             f.write(resp_dic['token'])
-        
+
     log.debug("token: %s",get_token())
 
 def is_login():
-    return os.path.exists(tokenfile)
+    if os.path.exists(tokenfile):
+        ctime = os.stat(tokenfile).st_ctime
+        t = datetime.datetime.today()
+        now = time.mktime(t.timetuple())
+        return (now-ctime)/3600 < 20
+    else:
+        return False
 

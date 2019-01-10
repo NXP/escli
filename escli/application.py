@@ -165,7 +165,7 @@ def delete(id):
     try:
         dict_resp= app.delete_app_by_id(id)
     except Exception as e:
-        sys.exit("failed to delete applications:  %s" %str(e))
+        sys.exit("failed to delete instance:  %s" %str(e))
 
     click.echo("Success to delete")
 
@@ -179,7 +179,7 @@ def instance(json):
     try:
         dict_resp= app.instances()
     except Exception as e:
-        sys.exit("failed to delete applications:  %s" %str(e))
+        sys.exit("failed to query instance:  %s" %str(e))
 
     if json:
         print(jsn.dumps(dict_resp, sort_keys=True, indent=4))
