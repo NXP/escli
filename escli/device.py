@@ -21,7 +21,7 @@ def device():
 
 @device.command('create', short_help='create a new device.')
 @click.option('--description', '-d', help="Description", default=None)
-@click.option('--fuid',  help="device's fuid", default=None, required=True)
+@click.option('--fuid',  help="device's unique factory ID or SN(serial number)", default=None, required=True)
 @click.option('--model_id', type=int, help="device model's id", required=True)
 @click.pass_context
 def create(ctx, description, fuid, model_id):
@@ -69,8 +69,9 @@ def create(ctx, description, fuid, model_id):
 @device.command()
 @click.option('--id', type=int, help="same as escl device show --id=yy", default=None)
 @click.option('--json', is_flag=True, help="output format, json or default summary format", default=False)
+@click.option('--max_width', type=int, help="display max width default 150", default=150)
 @click.pass_context
-def list(ctx, id, json):
+def list(ctx, id, json, max_width):
     """List your Devices"""
 
     if id !=None:
@@ -93,7 +94,7 @@ def list(ctx, id, json):
     if json:
         esdev.print_device_json(dict_resp)
     else:
-        esdev.print_device(dict_resp)
+        esdev.print_device(dict_resp, max_width)
 
 
 @device.command()

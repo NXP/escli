@@ -39,7 +39,7 @@ class App(object):
         """
         return user.get_token()
 
-    def print_details(self, data):
+    def print_details(self, data, max_width=150):
         x=[[]]
         if 'applications' in data:
             dic_list = data['applications']
@@ -55,7 +55,7 @@ class App(object):
 
             x.append([dic["id"], dic["name"], dic['display_name'], dic['is_public'], dic['description']])
 
-        tab = tt.Texttable(max_width=150)
+        tab = tt.Texttable(max_width=max_width)
         tab.set_deco(tab.HEADER|tab.BORDER|tab.VLINES)
         tab.add_rows(x)
         tab.header(["id", "name", "display_name", "is_public", "description"])
@@ -326,7 +326,31 @@ class App(object):
         __kargs["url_path"] = "/deployment/applications"
         return process_result(Request(__kargs,token).get())
 
-    def print_instances(self, data):
+    def instance_log(self, instance_name):
+        """
+        get applications instances log
+        return text"""
+        token = self._get_token()
+        __kargs = self.kargs.copy()
+        __kargs["url_path"] = "/deployment/applications/%s/conlog" %instance_name
+
+        resp = Request(__kargs,token).get(to_dict=False)
+        process_result(json.loads(resp))
+        return resp
+
+    def instance_history(self, instance_name):
+        """
+        get applications instance event logs
+        return text"""
+        token = self._get_token()
+        __kargs = self.kargs.copy()
+        __kargs["url_path"] = "/deployment/applications/%s/history" %instance_name
+
+        resp = Request(__kargs,token).get(to_dict=False)
+        process_result(json.loads(resp))
+        return resp
+
+    def print_instances(self, data, max_width=150):
         x=[[]]
         if 'items' in data:
             dic_list = data['items']
@@ -338,7 +362,7 @@ class App(object):
             x.append([dic["metadata"]['name'], dic['status']['phase'], dic["metadata"]["nodename"]+"\n",\
                    dic["metadata"]["creationTimestamp"],  dic['status']['reason']+"\n"+dic['status']['message']])
 
-        tab = tt.Texttable(max_width=150)
+        tab = tt.Texttable(max_width=max_width)
         tab.set_deco(tab.HEADER|tab.BORDER|tab.VLINES)
         tab.add_rows(x)
         #tab.set_cols_width([32, 10, 32, 15, 20])
@@ -363,4 +387,13 @@ class App(object):
             process_result(__resp)
         return resp
 
+    def reboot_instance_by_name(self, name):
+        """
+        reboot applications instances
+        name: string
+        return dict"""
+        token = self._get_token()
+        __kargs = self.kargs.copy()
+        __kargs["url_path"] = "/deployment/applications/%s/reboot" %name
+        return process_result(Request(__kargs,token).post())
 

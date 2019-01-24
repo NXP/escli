@@ -93,7 +93,7 @@ def print_header():
     print("%-4s %-64s %-8s %-30s %-15s" %('ID', 'device_name', 'status', 'create_time','local_ip'))
     print("-------------------------------------------------------------------------------------------------------------------------")
 
-def print_device(data):
+def print_device(data, max_width=150):
     """
     :param item: dict type
     """
@@ -108,7 +108,7 @@ def print_device(data):
 
         x.append([dic["id"], dic["name"]+"\n", dic['status'], dic['created_at'], dic['local_ip']])
 
-    tab = tt.Texttable(max_width=150)
+    tab = tt.Texttable(max_width=max_width)
     tab.set_deco(tab.HEADER|tab.BORDER|tab.VLINES)
     tab.add_rows(x)
     #tab.set_cols_width([5, 50, 8, 20, 25])

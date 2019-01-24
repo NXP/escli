@@ -38,7 +38,7 @@ class Solution(object):
         """
         return user.get_token()
 
-    def print_list(self, data):
+    def print_list(self, data, max_width=150):
         x=[[]]
         if 'results' in data:
             dic_list = data['results']
@@ -53,7 +53,7 @@ class Solution(object):
                      %(d["model"],d["platform"], d["type"],d["vendor"]), \
                      os.path.basename(d["link"])+"\n", d["is_public"]])
 
-        tab = tt.Texttable(max_width=150)
+        tab = tt.Texttable(max_width=max_width)
         tab.set_deco(tab.HEADER|tab.BORDER|tab.VLINES)
         tab.add_rows(x)
         #tab.set_cols_width([5, 20, 25, 30, 10])

@@ -68,8 +68,9 @@ def create(name, image_name, vendor_id, commands, cmdargs, pic, description):
 @app.command()
 @click.option('--id', type=int, help="applicastion's id default None(list all applications)", default=None)
 @click.option('--json', is_flag=True, help="output format, json or default summary format", default=False)
+@click.option('--max_width', type=int, help="display max width, default 150", default=150)
 @click.pass_context
-def list(ctx, id, json):
+def list(ctx, id, json, max_width):
     """List your Applications"""
 
     if id != None:
@@ -93,7 +94,7 @@ def list(ctx, id, json):
         print(jsn.dumps(dict_resp, sort_keys=True, indent=4))
         return
     try:
-        app.print_details(dict_resp)
+        app.print_details(dict_resp,max_width=max_width)
     except Exception as e:
         sys.exit("failed to print applications:  %s" %str(e))
 

@@ -13,6 +13,7 @@ from . import mix
 from . import task
 from . import builder
 from . import solution
+from . import instance
 from . import config as c
 
 log = logging.getLogger("")
@@ -42,6 +43,8 @@ def add_commands(cli):
     cli.add_command(app)
     cli.add_command(task)
     cli.add_command(solution)
+    cli.add_command(instance)
+    cli.add_command(builder)
     cli.add_command(mix.vendor)
     cli.add_command(mix.repo)
     cli.add_command(mix.model)

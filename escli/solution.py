@@ -61,9 +61,10 @@ def create(name, image_url, model_id, public_key, private):
 @solution.command()
 @click.option('--json', is_flag=True, help="output format, json or default summary format", default=False)
 @click.option('--id', type=int, help="solution id, default None(list all)", default=None, show_default=True)
+@click.option('--max_width', type=int, help="display max width,default 150", default=150)
 @click.pass_context
 
-def list(ctx, id, json):
+def list(ctx, id, json, max_width):
     """List your solution items"""
 
     kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version'], "url_path": "/solutions"}
@@ -84,7 +85,7 @@ def list(ctx, id, json):
         print(jsn.dumps(dict_resp, sort_keys=True, indent=4))
         return
     try:
-        solution.print_list(dict_resp)
+        solution.print_list(dict_resp, max_width=max_width)
     except Exception as e:
         sys.exit("Fail:  %s" %str(e))
 
@@ -92,8 +93,9 @@ def list(ctx, id, json):
 @solution.command()
 @click.option('--id', type=int, help="solution id", default=None, show_default=True, required=True)
 @click.option('--json', is_flag=True, help="output format, json or default summary format", default=False)
+@click.option('--max_width', type=int, help="display max width, default 150", default=150)
 
-def show(id, json):
+def show(id, json, max_width):
     """show a specific solution information (id given) same as "escli solution list --id=xxx" """
 
     kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version'], "url_path": "/solutions"}
@@ -111,7 +113,7 @@ def show(id, json):
         print(jsn.dumps(dict_resp, sort_keys=True, indent=4))
         return
     try:
-        solution.print_list(dict_resp)
+        solution.print_list(dict_resp, max_width=max_width)
     except Exception as e:
         sys.exit("Fail:  %s" %str(e))
 
