@@ -11,7 +11,7 @@ except:
     import configparser
 
 
-cfgfile = os.path.expanduser("~/edgescale/") + "cli_conf.ini"
+cfgfile = os.path.expanduser("~/.edgescale/") + "cli_conf.ini"
 config = configparser.RawConfigParser()
 cfg={}
 

@@ -20,7 +20,7 @@ from .utils import Request, process_result
 log = logging.getLogger("u")
 eslog.set_default_log()
 
-tokenfile = os.path.expanduser("~/edgescale/") + "token.txt"
+tokenfile = os.path.expanduser("~/.edgescale/") + "token.txt"
 
 def create_token_file(filename):
     if not os.path.exists(os.path.dirname(filename)):

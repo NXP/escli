@@ -24,7 +24,7 @@ def login(username, password):
     """
     Login with username and password.
 
-    Save the token inside `~/edgescale/token.txt`
+    Save the token inside `~/.edgescale/token.txt`
     """
     if username is None:
         click.echo("user name is needed")

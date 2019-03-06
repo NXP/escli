@@ -26,7 +26,7 @@ log = logging.getLogger("")
 def cli(host, debug):
     """
     CLI to interact with Edgescale server and execute your commands,
-    default config file is  ~/edgescale/cli_conf.ini
+    default config file is  ~/.edgescale/cli_conf.ini
     """
 
     c.cfg  = c.load_cfg()

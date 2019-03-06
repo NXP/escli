@@ -121,6 +121,30 @@ def list(json):
     except Exception as e:
         sys.exit("failed to query registry:  %s" %str(e))
 
+@repo.command('get-login')
+@click.option('-y', '--yes', is_flag=True, help="Assume yes to questions", default=False)
+
+def get_login(yes):
+    """get a docker command to login edgescale registry with username 
+       and password.
+    """
+    click.echo("*** The previous docker login token will be expired")
+    if not yes and not click.confirm('*** Do you want to continue?'):
+        sys.exit(0)
+
+    kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version'], "url_path": "/applications"}
+    app = esapp.App(kargs)
+    try:
+        dict_resp= app.get_registry_login()
+    except Exception as e:
+        sys.exit("failed: %s" %str(e))
+
+    if 'status' in dict_resp and dict_resp['status'] == 'success':
+        click.echo("*** Command to login edgescale registry:\n\t %s" %dict_resp['cmd'])
+    else:
+        sys.exit("failed to get login command")
+
+
 @click.group()
 def model():
     """model of device management."""

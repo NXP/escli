@@ -33,11 +33,10 @@ Help for all of the commands supported by the CLI can be found by running:
 * `escli [-h, --help]`
 
 ```
-osc@mercrury:~$ escli
 Usage: escli [OPTIONS] COMMAND [ARGS]...
 
   CLI to interact with Edgescale server and execute your commands, default
-  config file is  ~/edgescale/cli_conf.ini
+  config file is  ~/.edgescale/cli_conf.ini
 
 Options:
   -H, --host TEXT  edgescale host server address
@@ -46,11 +45,16 @@ Options:
 
 Commands:
   app       applications management
+  builder   builder management.
   device    device register and management.
+  instance  docker or application instances management
   login     login to edgescale
   logout    Logout from Edgescale
-  repo      edgescacle cli for registry.
-  vendor    edgescacle cli for manufacturer vendor.
+  model     model of device management.
+  repo      docker's repository registry.
+  solution  solution image management.
+  task      service to deploy application or solution.
+  vendor    manufacturer vendor management.
 ```
 
 * `escli [command] [-h, --help]`
@@ -75,10 +79,10 @@ Commands:
 
 ### edgescale cli conf
 
-The default configuration file is  "~/edgescale/cli_conf.ini", modify it if needed.
+The default configuration file is  "~/.edgescale/cli_conf.ini", modify it if needed.
 
 ```
-osc@mercrury:~$ cat ~/edgescale/cli_conf.ini
+osc@mercrury:~$ cat ~/.edgescale/cli_conf.ini
 [edgescale]
 host = https://api.edgescale.org
 api_version = v1

@@ -317,6 +317,15 @@ class App(object):
         __kargs["url_path"] = "/applications/mirrors"
         return process_result(Request(__kargs,token).get())
 
+    def get_registry_login(self):
+        """
+        return dict"""
+        token = self._get_token()
+        __kargs = self.kargs.copy()
+        __kargs["url_path"] = "/registry/login"
+        return process_result(Request(__kargs,token).get())
+
+
     def instances(self):
         """
         get applications instances
