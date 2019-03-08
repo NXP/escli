@@ -344,7 +344,6 @@ class App(object):
         __kargs["url_path"] = "/deployment/applications/%s/conlog" %instance_name
 
         resp = Request(__kargs,token).get(to_dict=False)
-        process_result(json.loads(resp))
         return resp
 
     def instance_history(self, instance_name):
