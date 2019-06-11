@@ -49,8 +49,12 @@ class Solution(object):
         for d in dic_list:
             if "id" not in d:
                 continue
+            if isinstance(d['model'], dict):
+                m = d['model']
+            else:
+                m = d
             x.append([d["id"], "%s:%s"%(d["solution"],d["version"]),"%s-%s-%s-%s"\
-                     %(d["model"],d["platform"], d["type"],d["vendor"]), \
+                     %(m["model"], m["platform"], m["type"], m["vendor"]), \
                      os.path.basename(d["link"])+"\n", d["is_public"]])
 
         tab = tt.Texttable(max_width=max_width)

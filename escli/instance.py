@@ -74,7 +74,7 @@ def list(json, max_width):
 @instance.command('logs', short_help='show the docker instance log')
 @click.option('--name',help="docker instance name,  get name by instance list", required=True)
 def logs(name):
-    """query and list the docker instances"""
+    """show the docker instance log"""
 
     kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version'], "url_path": "/deployment/applications"}
     app = esapp.App(kargs)
@@ -88,7 +88,7 @@ def logs(name):
 @instance.command('describe', short_help='show history and event for docker instance')
 @click.option('--name',help="docker instance name,  get name by instance list", required=True)
 def describe(name):
-    """query and list the docker instances"""
+    """show history and event for the docker instances"""
 
     kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version'], "url_path": "/deployment/applications"}
     app = esapp.App(kargs)
@@ -120,7 +120,7 @@ def del_instance(name):
 @click.option('--name',help="docker instance name,  get name by instance list", required=True)
 @click.option('--max_width', type=int, help="display max width", default=150)
 def reboot(name, max_width):
-    """delete the docker instances"""
+    """reboot the docker instances"""
     if name is None:
         click.echo("docker instance name is needed.")
         sys.exit(1)
