@@ -46,7 +46,7 @@ def create(name):
 @vendor.command('list', short_help='query and show the vendor list')
 @click.option('--json', is_flag=True, help="output format, json or default summary format", default=False)
 
-def list(json):
+def list(limit, offset, json):
     """Show your vendor list"""
 
     kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version']}
@@ -152,12 +152,15 @@ def model():
 
 @model.command('list', short_help='query and show the available model list')
 @click.option('--id', type=int, help='model ID', default=None)
+@click.option('--limit', type=int, help="display item number", default=20, show_default=True)
+@click.option('--offset', type=int, help="item offset from which to show", default=0, show_default=True)
 @click.option('--json', is_flag=True, help="output format, json or default summary format", default=False)
 
-def list(id, json):
+def list(id, limit, offset, json):
     """Show your model list"""
 
     kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version'], "url_path": "/models"}
+    kargs['params'] = {"limit": limit, "offset": offset}
     if id != None:
         kargs["url_path"] = "/models/%s" %(str(id))
 

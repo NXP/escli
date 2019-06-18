@@ -68,16 +68,19 @@ def create(ctx, description, fuid, model_id):
 
 @device.command()
 @click.option('--id', type=int, help="same as escl device show --id=yy", default=None)
+@click.option('--limit', type=int, help="display item number", default=20, show_default=True)
+@click.option('--offset', type=int, help="item offset from which to show", default=0, show_default=True)
 @click.option('--json', is_flag=True, help="output format, json or default summary format", default=False)
 @click.option('--max_width', type=int, help="display max width default 150", default=150)
 @click.pass_context
-def list(ctx, id, json, max_width):
+def list(ctx, id, limit, offset, json, max_width):
     """List your Devices"""
 
     if id !=None:
         return ctx.invoke(show, id=id, json=json)
 
     kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version'], "url_path": "/devices"}
+    kargs['params'] = {"limit": limit, "offset": offset}
     try:
         dict_resp= esdev.Device(kargs).get_devices()
     except Exception as e:

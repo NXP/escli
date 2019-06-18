@@ -54,11 +54,14 @@ def deploy(device_id, app_id, app_version, hostnet):
 
 @instance.command('list', short_help='query and list the docker instances of user')
 @click.option('--json', is_flag=True, help="output format, json or default summary format", default=False)
+@click.option('--limit', type=int, help="display item number", default=20, show_default=True)
+@click.option('--offset', type=int, help="item offset from which to show", default=0, show_default=True)
 @click.option('--max_width', type=int, help="display max width, default 150", default=150)
-def list(json, max_width):
+def list(json, limit, offset, max_width):
     """query and list the docker instances"""
 
     kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version'], "url_path": "/applications"}
+    kargs['params'] = {"limit": limit, "offset": offset}
     app = esapp.App(kargs)
     try:
         dict_resp= app.instances()

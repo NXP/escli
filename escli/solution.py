@@ -22,7 +22,7 @@ def solution():
 @click.option('--name',  help="solution name and version Eg: lsdk_solutionname1:version2", required=True)
 @click.option('--image_url', help="solution image url Eg: http://sun.ap.testhost/testpath/testimgage.tgz", required=True)
 @click.option('--model_id', type=int, help="model's id, escli model list", default=4, required=True)
-@click.option('--public_key', help="image signed public key default null", default=None)
+@click.option('--public_key', help="image signed public key, default null", default=None)
 @click.option('--private',  is_flag=True, help="make the image as private, default False", default=False)
 def create(name, image_url, model_id, public_key, private):
     """Create and upload a solution."""
@@ -61,15 +61,19 @@ def create(name, image_url, model_id, public_key, private):
 @solution.command()
 @click.option('--json', is_flag=True, help="output format, json or default summary format", default=False)
 @click.option('--id', type=int, help="solution id, default None(list all)", default=None, show_default=True)
+@click.option('--limit', type=int, help="display item number", default=20, show_default=True)
+@click.option('--offset', type=int, help="item offset from which to show", default=0, show_default=True)
 @click.option('--max_width', type=int, help="display max width,default 150", default=150)
 @click.pass_context
 
-def list(ctx, id, json, max_width):
+def list(ctx, id, json, max_width, limit, offset):
     """List your solution items"""
 
     kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version'], "url_path": "/solutions"}
     if id != None:
        return ctx.invoke(show, id=id, json=json)
+
+    kargs['params'] = {"limit": limit, "offset": offset}
 
     solution = es.Solution(kargs)
     try:

@@ -31,6 +31,8 @@ class Solution(object):
         self.kargs = kargs
         if "url_path" not in self.kargs:
             self.kargs["url_path"] = "/solutions"
+        if "params" not in self.kargs:
+            self.kargs["params"] = {}
 
     def _get_token(self):
         """return token or None
@@ -111,7 +113,14 @@ class Solution(object):
         """
         token = self._get_token()
         __kargs = self.kargs.copy()
-        return process_result(Request(__kargs,token).get())
+        r = process_result(Request(__kargs,token).get())
+
+        __kargs['params'].update({"my_solution": "true"})
+        my = process_result(Request(__kargs,token).get())
+
+        r['results']= r.get('results',[])+ my.get('results',[])
+        r['total']+=my.get("total", 0)
+        return r
 
     def delete_solution_by_id(self, sid):
         """Delete task
