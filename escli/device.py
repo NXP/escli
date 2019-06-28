@@ -178,7 +178,8 @@ def get_cert(id, name):
 
 @device.command("upload-db")
 @click.option('-f', type=click.File(), help="csv format db file, a example file: example/dev_db.csv", required=True)
-def upload_db(f):
+@click.option('--keyid', help="project keyID, get from fuse_config.yaml, example: a03e848c-51c4-11e9-b550-4ba9d5edb72a", required=True)
+def upload_db(f, keyid):
     """upload device db to cloud"""
 
     kargs={'host': c.cfg['host'], "api_version": c.cfg['api_version'], "url_path": "/enroll/device"}
@@ -194,16 +195,14 @@ def upload_db(f):
             if "fuid" in line.lower() and "oemid" in  line.lower():
                 continue
             if len(line) < 20:
-                click.echo("\n item: %s too short, should > 20 character,skip it\n" %line, nl=False)
+                #click.echo("\n item: %s too short, should > 20 character,skip it\n" %line, nl=False)
                 continue
-            if line.count(',') != 4:
-                sys.exit("\ncsv db schema error, should be: \"FUID,OEMID,SK_PUB_X,SK_PUB_Y,MODEL_ID\"\n")
             data += line
         #print len(data)
         click.echo("...", nl=False)
         data64 = base64.b64encode(data)
         try:
-            dict_resp= esdev.Device(kargs).upload_device_db(data64)
+            dict_resp= esdev.Device(kargs).upload_device_db(data64, keyid)
         except Exception as e:
             sys.exit("Fail: %s" %str(e))
 

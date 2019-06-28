@@ -64,12 +64,13 @@ class Device(object):
         token = self._get_token()
         return process_result(Request(self.kargs,token).get())
 
-    def upload_device_db(self, raw_data):
+    def upload_device_db(self, raw_data, keyid):
         """return dict"""
         token = self._get_token()
         __kargs = self.kargs.copy()
         __kargs['request_body'] = {
-            "data": raw_data
+            "data": raw_data,
+            "key_id": keyid
         }
         return process_result(Request(__kargs,token).post())
 
